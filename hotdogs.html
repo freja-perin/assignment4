@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Joe's Hot Dogs</title>
+        <script language="javascript">
+            var hotDog = {name: "Hot Dogs", price: 3.25};
+            var frenchFries = {name: "French Fries", price: 2.00};
+            var drink = {name: "Drinks", price: 1.50,};
+            itemList = [hotDog, frenchFries, drink];
+            order = new Array();
+        </script>
+    </head>
+
+    <body>
+        <h1>Welcome to Joe's Hot Dogs</h1>
+        <h2>Menu</h2>
+        <script language="javascript">
+            for(i = 0; i < 3; i++) {
+                document.write(itemList[i].name + ": $" + itemList[i].price.toFixed(2) + "<br>");
+            }
+        </script>
+        <h2>Please submit your online order below!</h2>
+        <form>
+            <h3>How many hot dogs?</h3>
+            <input type="text" id="numHotDogs">
+            <h3>How many fries?</h3>
+            <input type="text" id="numFries">
+            <h3>How many drinks?</h3>
+            <input type="text" id="numDrinks"> <br>
+            <input type="button" value="Place Order" onclick="order()">
+        </form>
+
+        <script language="javascript">
+        function order() {
+            quantities = [document.getElementById("numHotDogs").value, document.getElementById("numFries").value, document.getElementById("numDrinks").value];
+            priceBeforeTax = 0;
+            for(i = 0; i < 3; i++) 
+                priceBeforeTax += (parseFloat(quantities[i]) * itemList[i].price);
+            var discount = 0;
+            if(priceBeforeTax >= 20) {
+                discount += 0.1 * priceBeforeTax;
+                priceBeforeTax -= discount;
+            }
+            var tax = 0.0625 * priceBeforeTax;
+            priceAfterTax = priceBeforeTax + tax;
+
+            var orderMessage = "";
+            for(i = 0; i < 3; i++)
+                orderMessage += (itemList[i].name + ": " + quantities[i] + "\n");
+            priceBeforeMessage = "Total before tax: $" + priceBeforeTax.toFixed(2) + "\n";
+            var discountMessage = "";
+            if(discount != 0)
+                discountMessage = "Discount (10%): -$" + discount.toFixed(2) + "\n";      
+            taxMessage = "Tax (6.25%): $" + tax.toFixed(2) + "\n";
+            priceAfterMessage = "Total price: $" + priceAfterTax.toFixed(2) + "\n";
+            alert(orderMessage + priceBeforeMessage + discountMessage + taxMessage + priceAfterMessage);
+        }  
+        </script>
+    </body>
+</html>

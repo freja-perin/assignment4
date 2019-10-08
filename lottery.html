@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quick Pick Lottery</title>
+    </head>
+    <body>
+        <script language="javascript">
+            var nums = new Array();
+            //inserting 5 random numbers between 1 and 48 into the array
+            for (var i = 0; i < 5; i++) 
+                nums[i] = Math.round((Math.random() * 47 + 1));
+            //inserting 1 random number between 1 and 18 (lucky ball) into the array
+            nums[5] = Math.round((Math.random() * 17 + 1));
+
+            //showing the numbers on the screen
+            for(var j = 0; j < 6; j++)
+                document.write(nums[j] + "</br>");
+        </script>
+        <form>
+            <h4>Guess five numbers from 1 to 48:</h4>
+            <input type='text' id='regNums'>
+            <h4>Guess one Lucky Ball number from 1 to 18:</h4>
+            <input type='text' id='luckyBall'>
+            <input type='button' onclick='analyzeUserInput()' value='submit guess'>
+        </form>
+
+        <script language="javascript">
+            function analyzeUserInput() 
+            {
+                var numCorrectGuess = 0, luckyBallCorrect; //keep track of whether the guesses were correct
+
+                //places the regular number guesses into an array using the split() function on the string
+                var regNumsGuess = (document.getElementById('regNums').value).split(" ");
+
+                //loops compare every guess to every correct answer and see if any were correct
+                for(i = 0; i < 5; i++) {
+                    for(j = 0; j < 5; j++) {
+                        if(regNumsGuess[i] == nums[j]) 
+                            numCorrectGuess++;
+                    }
+                }
+
+                //gets the guess for the lucky ball value from the form
+                var luckyBallGuess = document.getElementById('luckyBall').value;
+                //checks if the user's guess was correct
+                if(luckyBallGuess == nums[5]) 
+                    luckyBallCorrect = true;
+                else    
+                    luckyBallCorrect = false;
+
+                //alerts the user if they guessed anything correctly
+                alertUser(numCorrectGuess, luckyBallCorrect);
+            }
+
+            function alertUser(numCorrect, luckyBall) {
+                var payoutAmt;
+                //determining how much the user has won
+                if(luckyBall) {
+                    switch(numCorrect) {
+                        case 0: payoutAmt = "$4"; break;
+                        case 1: payoutAmt = "$6"; break;
+                        case 2: payoutAmt = "$25"; break;
+                        case 3: payoutAmt = "$150"; break;
+                        case 4: payoutAmt = "$5000"; break;
+                        case 5: payoutAmt = "$7000 a WEEK for LIFE"; break;
+                        default: payoutAmt = 0;
+                    }
+                }
+                else {
+                    switch(numCorrect) {
+                        case 2: payoutAmt = "$3"; break;
+                        case 3: payoutAmt = "$20"; break;
+                        case 4: payoutAmt = "$200"; break;
+                        case 5: payoutAmt = "$25000 a YEAR for LIFE"; break;
+                        default: payoutAmt = 0;
+                    }
+                }
+
+                //alerting the user how much they won
+                if(payoutAmt != 0) 
+                    alert("Congratulations! You won " + payoutAmt + "!");
+                else    
+                    alert("Sorry, you didn't win anything. Better luck next time");
+                
+            }
+           
+        </script>
+    </body>
+</html>
